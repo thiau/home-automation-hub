@@ -1,6 +1,8 @@
-
 class PipelineStep:
-    def __init__():
-        self.name = "Pipeline Name"
+    def __init__(self):
+        self.title = None
+        self.value = "PLACEHOLDER"
         self.short = False
-        self.value = "Pipeline Value"
+
+    def run(self):
+        return None
