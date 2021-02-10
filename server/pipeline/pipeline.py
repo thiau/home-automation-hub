@@ -6,6 +6,7 @@ from helpers.slack.slack_helper import Slack
 # @TODO: Should the slack channel be definied in the Slack class instanciation?
 # @TODO: Should I move the slack_message object to another file?
 
+
 class Pipeline:
     def __init__(self):
         self.slack = Slack()
@@ -43,19 +44,22 @@ class Pipeline:
             # Instanciate and run PipelineStep object
             step = pipeline_step()
             step.run()
-            
+
             # Build Fields message object
             fields = self._build_fields(step)
             self.slack_message["attachments"][0]["fields"].append(fields)
-            
+
             # Send or update slack message
             if self.slack_ts:
                 self.slack_message["ts"] = self.slack_ts
-                self.slack.update_message(custom_payload=json.dumps(self.slack_message))
+                self.slack.update_message(
+                    custom_payload=json.dumps(self.slack_message))
             else:
-                slack_response = self.slack.send_message(custom_payload=json.dumps(self.slack_message))
+                slack_response = self.slack.send_message(
+                    custom_payload=json.dumps(self.slack_message))
                 self.slack_ts = slack_response.get("ts")
-        
+
         # Send finish message
         self.slack_message["attachments"][0]["color"] = "good"
-        self.slack.update_message(custom_payload=json.dumps(self.slack_message))
+        self.slack.update_message(
+            custom_payload=json.dumps(self.slack_message))
