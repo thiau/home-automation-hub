@@ -25,5 +25,5 @@ class UpdateConfigDbStep(PipelineStep):
 
     def run(self):
         doc = self.get_cloudant_doc(database="config", doc_id="raspberry_config")
-        doc["test_param"] = self._get_ngrok_hostname()
+        doc["ngrok_hostname"] = self._get_ngrok_hostname()
         doc.save()
