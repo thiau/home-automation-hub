@@ -1,4 +1,5 @@
 import os
+import requests
 from cloudant.client import Cloudant
 from server.pipeline.pipeline_step import PipelineStep
 
