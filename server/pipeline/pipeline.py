@@ -5,6 +5,7 @@ from helpers.slack.slack_helper import Slack
 
 # @TODO: Should the slack channel be definied in the Slack class instanciation?
 # @TODO: Should I move the slack_message object to another file?
+# @TODO: Add error handling
 
 
 class Pipeline:
@@ -38,28 +39,35 @@ class Pipeline:
         return fields
 
     def run(self):
-        for pipeline_step in self.pipeline_steps:
-            time.sleep(5)
+        try:
+            for pipeline_step in self.pipeline_steps:
+                # time.sleep(5)
 
-            # Instanciate and run PipelineStep object
-            step = pipeline_step()
-            step.run()
+                # Instanciate and run PipelineStep object
+                step = pipeline_step()
+                step.run()
 
-            # Build Fields message object
-            fields = self._build_fields(step)
-            self.slack_message["attachments"][0]["fields"].append(fields)
+                # Build Fields message object
+                fields = self._build_fields(step)
+                self.slack_message["attachments"][0]["fields"].append(fields)
 
-            # Send or update slack message
-            if self.slack_ts:
-                self.slack_message["ts"] = self.slack_ts
-                self.slack.update_message(
-                    custom_payload=json.dumps(self.slack_message))
-            else:
-                slack_response = self.slack.send_message(
-                    custom_payload=json.dumps(self.slack_message))
-                self.slack_ts = slack_response.get("ts")
+                # Send or update slack message
+                if self.slack_ts:
+                    self.slack_message["ts"] = self.slack_ts
+                    self.slack.update_message(
+                        custom_payload=json.dumps(self.slack_message))
+                else:
+                    slack_response = self.slack.send_message(
+                        custom_payload=json.dumps(self.slack_message))
+                    self.slack_ts = slack_response.get("ts")
 
-        # Send finish message
-        self.slack_message["attachments"][0]["color"] = "good"
-        self.slack.update_message(
-            custom_payload=json.dumps(self.slack_message))
+            # Send finish message
+            self.slack_message["attachments"][0]["color"] = "good"
+            self.slack.update_message(
+                custom_payload=json.dumps(self.slack_message))
+        except Exception as e:
+            # Send error message
+            self.slack_message["attachments"][0]["color"] = "danger"
+            self.slack.update_message(
+                custom_payload=json.dumps(self.slack_message))
+            print(e)
