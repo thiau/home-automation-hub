@@ -10,7 +10,13 @@ class UpdateConfigDbStep(PipelineStep):
         self.title = "Cloud configs updated successfully!"
         self.value = None
 
-        self.cloudant = Cloudant.iam("2f6cd0a9-534d-4350-9b14-2d0011dd5a17-bluemix", "uF0iS07PaTs4H_o8b-kqdntz9C5bJayiq4pSzMDDom9h", connect=True)
+        # Get Cloudant Credentials
+        self.cloudant_username = os.getenv("CLOUDANT_USERNAME")
+        self.cloudant_password = os.getenv("CLOUDANT_PASSWORD")
+
+        # Create Cloudant Instance
+        self.cloudant = Cloudant.iam(
+            self.cloudant_username, self.cloudant_password, connect=True)
 
     def get_cloudant_doc(self, database, doc_id):
         my_database = self.cloudant[database]
