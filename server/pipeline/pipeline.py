@@ -20,7 +20,6 @@ class Pipeline:
                     "mrkdwn_in": ["text"],
                     "color": "warning",
                     "author_name": "Home Automation Bot",
-                    "author_icon": "https://placeimg.com/16/16/people",
                     "fields": [],
                     "footer": "home automation app",
                 }
