@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="client/styles.css">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<section id="main-grid">
+				<section 
+					class="main-grid-item"
+					v-for="param in smartHubElements"
+					:key="param.key">
+					<div class="grid-item">
+						<div 
+							@click="toggle(param.key)" 
+							class="status-icon-container">
+
+							<span class="loading-icon" v-show="param.loading">
+								<i class="fas fa-spinner fa-spin"></i>
+							</span>
+
+							<span v-show="param.running">
+								<i class="fas fa-toggle-on"></i>
+							</span>
+							<span v-show="!param.running">
+								<i class="fas fa-toggle-off"></i>
+							</span>
+
+							<!-- <div v-if="param.running" class="circle"></div>
+							<div v-if="!param.running" class="circle red"></div> -->
+						</div>
+						<div class="hub-element-container">{{ param.name }}</div>
+					</div>
+				</section>
+			</section>
+		</div>
+		
+		<script type="module" src="client/scripts.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.10.0/js/all.js"></script>
+	</body>
+</html>

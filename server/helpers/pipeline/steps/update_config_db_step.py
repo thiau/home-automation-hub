@@ -1,7 +1,7 @@
 import os
 import requests
 from cloudant.client import Cloudant
-from server.pipeline.pipeline_step import PipelineStep
+from server.helpers.pipeline.pipeline_step import PipelineStep
 
 
 class UpdateConfigDbStep(PipelineStep):

@@ -1,4 +1,4 @@
-from server.pipeline.pipeline_step import PipelineStep
+from server.helpers.pipeline.pipeline_step import PipelineStep
 
 
 class InitialStep(PipelineStep):
